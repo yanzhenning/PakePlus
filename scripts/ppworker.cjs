@@ -290,20 +290,21 @@ const main = async () => {
     const icnsOutputPath = path.join(__dirname, icnsPath)
     // 创建 icon
     await createIcon(inputPath, tempOutputPath, icnsOutputPath)
-    // 更新 index.html
-    updatePPPwdHtml(
-        startMethod,
-        startPwd,
-        pwdTitle,
-        pwdBtn,
-        pwdPlace,
-        pwdTip,
-        pwdError,
-        pwdStyle,
-        pwdTheme,
-        winConfig,
-        isHtml
-    )
+    if (startMethod === 'password' || startMethod === 'oncePwd') {
+        updatePPPwdHtml(
+            startMethod,
+            startPwd,
+            pwdTitle,
+            pwdBtn,
+            pwdPlace,
+            pwdTip,
+            pwdError,
+            pwdStyle,
+            pwdTheme,
+            winConfig,
+            isHtml
+        )
+    }
     // 更新 cargo.toml
     updateCargoToml(
         name,
@@ -332,5 +333,6 @@ const main = async () => {
         console.log('🚀 worker end')
     } catch (error) {
         console.error('❌ Worker Error:', error)
+        process.exitCode = 1
     }
 })()
